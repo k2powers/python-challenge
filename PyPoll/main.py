@@ -43,10 +43,21 @@ with open(csvpath, newline='') as csvfile:
     # and their total votes won from the cv_count list
     for candidate in range(len(cnames)):
         print(cnames[candidate],": ",percs[candidate],
-            " (",cv_count[candidate],")")
+            " (",'{:,.0f}'.format(cv_count[candidate]),")")
     print("-------------------------")
     print("Winner: ",cnames[cv_count.index(max(cv_count))])
     print("-------------------------")
 
+# Open and write to the file using "write" mode. Specify the variable to hold the contents
+with open("pypoll_results.csv",'x',newline='') as pypollcsv:
+    pypollwriter = csv.writer(pypollcsv,delimiter=',')
+    pypollwriter.writerow(["Election Results"])
+    pypollwriter.writerow([""])
+    pypollwriter.writerow(["Total Votes:",'{:,.0f}'.format(totVotes)])
+    pypollwriter.writerow(["Winner:",cnames[cv_count.index(max(cv_count))]])
+    pypollwriter.writerow([""])
+    pypollwriter.writerow(["Candidate Name","% of Total Votes Won","Total Votes Won"])
+    for candidate in range(len(cnames)):
+        pypollwriter.writerow([cnames[candidate],percs[candidate],'{:,.0f}'.format(cv_count[candidate])])
 
 
